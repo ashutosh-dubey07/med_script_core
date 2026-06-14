@@ -10,6 +10,6 @@ A secure, offline-first Prescription Audit System.
 ## Core Setup
 - **Language:** Python
 - **Database:** SQLite (Local Vault)
-- **Security:** Strict parameterized queries to prevent SQL Injection.
+- **Security:** Strict parameterized queries
 
-*Note: Work in Progress.*
+*note :work in progress*
