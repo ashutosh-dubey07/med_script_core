@@ -4,6 +4,9 @@ def seed():
     try:
         with sqlite3.connect("med_script.db") as conn:
             c = conn.cursor()
+
+        
+            c.execute("DELETE FROM medicines")
             
             dummy_data = [
                 ('Dolo 650', 'Paracetamol', 0),

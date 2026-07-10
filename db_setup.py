@@ -7,8 +7,8 @@ def setup():
     c.execute('''
         CREATE TABLE IF NOT EXISTS medicines (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            brand_name TEXT,
-            salt_name TEXT,
+            brand_name TEXT NOT NULL,
+            salt_name TEXT NOT NULL,
             is_banned INTEGER DEFAULT 0
         )
     ''')
