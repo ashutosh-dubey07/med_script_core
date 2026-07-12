@@ -7,7 +7,7 @@ from google import genai
 load_dotenv()
 
 
-def ask_gemini(prompt):
+def ask_gemini(prompt,medicine):
 
     api_key = os.getenv("GEMINI_API_KEY")
 
@@ -18,4 +18,4 @@ def ask_gemini(prompt):
         contents=prompt
     )
 
-    return response.text
+    return response.text  
