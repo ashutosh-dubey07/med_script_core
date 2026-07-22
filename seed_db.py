@@ -1,11 +1,13 @@
 import sqlite3
 
+
 def seed():
     try:
         with sqlite3.connect("med_script.db") as conn:
             c = conn.cursor()
-        ## Clear existing medicine records
+
             c.execute("DELETE FROM medicines")
+            c.execute("DELETE FROM interactions")
 
             medicine_data = [
 
@@ -37,15 +39,6 @@ def seed():
                 ),
 
                 (
-                    "Dolowin Plus",
-                    "Aceclofenac + Paracetamol",
-                    "Pain Relief",
-                    "Tablet",
-                    1,
-                    "Pfizer"
-                ),
-
-                (
                     "Augmentin 625",
                     "Amoxicillin + Clavulanic Acid",
                     "Antibiotic",
@@ -55,52 +48,79 @@ def seed():
                 ),
 
                 (
-    "Hiflo-AM",
-    "Amlodipine + Metoprolol",
-    "High Blood Pressure",
-    "Tablet",
-    1,
-    "Sun Pharma"
-),
+                    "Hiflo-AM",
+                    "Amlodipine + Metoprolol",
+                    "High Blood Pressure",
+                    "Tablet",
+                    1,
+                    "Sun Pharma"
+                ),
 
-(
-    "CORQ-10",
-    "Coenzyme Q10",
-    "Heart Health Supplement",
-    "Capsule",
-    0,
-    "Abbott"
-),
+                (
+                    "CORQ-10",
+                    "Coenzyme Q10",
+                    "Heart Health Supplement",
+                    "Capsule",
+                    0,
+                    "Abbott"
+                ),
 
-(
-    "Polynova",
-    "Multivitamin + Multimineral",
-    "Nutritional Supplement",
-    "Tablet",
-    0,
-    "Mankind"
-),
+                (
+                    "Polynova",
+                    "Multivitamin + Multimineral",
+                    "Nutritional Supplement",
+                    "Tablet",
+                    0,
+                    "Mankind"
+                ),
 
-(
-    "Dolowin Plus",
-    "Aceclofenac + Paracetamol",
-    "Pain Relief",
-    "Tablet",
-    1,
-    "Pfizer"
-),
+                (
+                    "Dolowin Plus",
+                    "Aceclofenac + Paracetamol",
+                    "Pain Relief",
+                    "Tablet",
+                    1,
+                    "Pfizer"
+                ),
 
-(
-    "Ruliz-D",
-    "Cetirizine + Domperidone",
-    "Allergy Relief",
-    "Tablet",
-    1,
-    "Cipla"
-)
+                (
+                    "Ruliz-D",
+                    "Cetirizine + Domperidone",
+                    "Allergy Relief",
+                    "Tablet",
+                    1,
+                    "Cipla"
+                )
+
             ]
-            c.executemany("""
 
+            interaction_data = [
+
+                (
+                    "Ibuprofen + Paracetamol",
+                    "Paracetamol",
+                    "Low",
+                    "Avoid unnecessary duplicate Paracetamol exposure."
+                ),
+
+                (
+                    "Aceclofenac + Paracetamol",
+                    "Paracetamol",
+                    "Moderate",
+                    "May increase total Paracetamol dose."
+                ),
+
+                (
+                    "Amoxicillin + Clavulanic Acid",
+                    "Coenzyme Q10",
+                    "Low",
+                    "No significant interaction reported."
+                )
+
+            ]
+
+            c.executemany(
+                """
                 INSERT INTO medicines(
                     brand_name,
                     generic_salt,
@@ -108,17 +128,32 @@ def seed():
                     dosage_form,
                     prescription_required,
                     manufacturer
-
                 )
-
                 VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                medicine_data
+            )
 
-            """,  medicine_data)
+            c.executemany(
+                """
+                INSERT INTO interactions(
+                    salt_1,
+                    salt_2,
+                    severity,
+                    description
+                )
+                VALUES (?, ?, ?, ?)
+                """,
+                interaction_data
+            )
+
             conn.commit()
 
-            print("Medicine database seeded successfully.")
+            print("Database seeded successfully.")
+
     except Exception as e:
         print(e)
+
 
 if __name__ == "__main__":
     seed()
